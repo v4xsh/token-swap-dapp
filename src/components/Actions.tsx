@@ -10,11 +10,7 @@ const Actions = () => {
     connector: connector,
   });
 
-  const {
-    data,
-    isError,
-    isLoading,
-  } = useBalance({
+  const { data, isError, isLoading } = useBalance({
     address,
   });
 
@@ -23,14 +19,34 @@ const Actions = () => {
 
   if (isConnected)
     return (
-      <div>
-        <div>Connected to {ensName ?? address}</div>
-        <div>Token: {data?.symbol}</div>
-        <div>Token Decimals: {data?.decimals}</div>
-        <div>Current Token Balance: {data?.value.toString()}</div>
+      <div className="text-center block mx-auto">
+        <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl flex flex-col sm:block">
+          <span>Connected to</span>{" "}<span className="font-bold whitespace-normal">{ensName ?? address}</span>
+        </div>
+        <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl">
+          Token: <span className="font-bold">{data?.symbol}</span>
+        </div>
+        <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl">
+          Token Decimals: <span className="font-bold">{data?.decimals}</span>
+        </div>
+        <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl">
+          Current Token Balance:{" "}
+          <span className="font-bold">{data?.value.toString()}</span>
+        </div>
+        <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl">
+          Formatted Token Balance:{" "}
+          <span className="font-bold">{data?.formatted}</span>
+        </div>
       </div>
     );
-  return <button onClick={() => connect()}>Connect Wallet</button>;
+  return (
+    <button
+      className="px-4 py-2 bg-purple-800 mx-auto block text-sm sm:text-xl lg:text-2xl xl:text-3xl"
+      onClick={() => connect()}
+    >
+      Connect Wallet
+    </button>
+  );
 };
 
 export default Actions;
