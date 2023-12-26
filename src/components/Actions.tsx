@@ -1,6 +1,5 @@
 import React from "react";
-import { useAccount, useConnect, useEnsName } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
+import { useAccount, useBalance, useConnect, useEnsName } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 const Actions = () => {
@@ -11,7 +10,26 @@ const Actions = () => {
     connector: connector,
   });
 
-  if (isConnected) return <div>Connected to {ensName ?? address}</div>;
+  const {
+    data,
+    isError,
+    isLoading,
+  } = useBalance({
+    address,
+  });
+
+  if (isLoading) return <div>Fetching balance…</div>;
+  if (isError) return <div>Error fetching balance</div>;
+
+  if (isConnected)
+    return (
+      <div>
+        <div>Connected to {ensName ?? address}</div>
+        <div>Token: {data?.symbol}</div>
+        <div>Token Decimals: {data?.decimals}</div>
+        <div>Current Token Balance: {data?.value.toString()}</div>
+      </div>
+    );
   return <button onClick={() => connect()}>Connect Wallet</button>;
 };
 
