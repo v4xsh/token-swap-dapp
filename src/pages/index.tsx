@@ -6,6 +6,7 @@ import Disconnect from "@/components/Disconnect";
 import WalletInfo from "@/components/WalletInfo";
 import Susd from "@/components/Susd";
 import Usdc from "@/components/Usdc";
+import Swap from "@/components/Swap";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -20,14 +21,15 @@ export default function Home() {
         {!isConnected ? (
           <Connect />
         ) : (
-          <>
+          <div className="mx-36">
             <WalletInfo address={address} isConnected={isConnected} />
             <br />
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between my-10">
               <Susd />
               <Usdc />
             </div>
-          </>
+            <Swap />
+          </div>
         )}
       </div>
     </>

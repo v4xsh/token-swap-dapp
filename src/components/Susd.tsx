@@ -1,19 +1,62 @@
-import React, { useState } from "react";
-import { useContractWrite } from "wagmi";
+import React, { useEffect, useState } from "react";
+import { useContractReads, useContractWrite } from "wagmi";
 import Susd from "../../abi/susd.json";
 
 const Mint = () => {
   const [susdMintAmount, setSusdMintAmount] = useState(0);
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
-    address: process.env.NEXT_PUBLIC_TOKEN_A_ADDRESS as `0x${string}`,
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
     abi: Susd,
     functionName: "mint",
     args: [susdMintAmount],
   });
 
+  const susdTokenContract = {
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    abi: Susd,
+  };
+
+  const {
+    data: readTokenData,
+    isError,
+    isLoading: isLoadingTokenData,
+  } = useContractReads({
+    contracts: [
+      {
+        ...susdTokenContract,
+        functionName: "name",
+      },
+      {
+        ...susdTokenContract,
+        functionName: "symbol",
+      },
+      {
+        ...susdTokenContract,
+        functionName: "balanceOf",
+        args: [process.env.NEXT_PUBLIC_PERSONAL_WALLET as `0x${string}`],
+      },
+    ],
+  });
+
+  const [tokenSymbol, setTokenSymbol] = useState("");
+  const [tokenName, setTokenName] = useState("");
+  const [tokenCurrBalance, setTokenCurrBalance] = useState("");
+
+  useEffect(() => {
+    setTokenSymbol(readTokenData[0].result);
+    setTokenName(readTokenData[1].result);
+    setTokenCurrBalance(readTokenData[2].result.toString().slice(0, 10));
+  });
+
   return (
     <div className="flex items-center flex-col gap-3">
+      <div>
+        {tokenName}
+        {" - "}
+        {tokenSymbol}
+      </div>
+      <div>Balance: {tokenCurrBalance}</div>
       <input
         type="number"
         onChange={(e) => setSusdMintAmount(parseFloat(e.target.value))}
