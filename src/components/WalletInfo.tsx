@@ -1,14 +1,12 @@
 import React from "react";
-import { useAccount, useBalance, useConnect, useEnsName } from "wagmi";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { useAccount, useBalance } from "wagmi";
 
-const Actions = () => {
-  const { address, isConnected } = useAccount();
-  const { data: ensName } = useEnsName({ address });
-  const connector = new MetaMaskConnector();
-  const { connect } = useConnect({
-    connector: connector,
-  });
+interface WalletInfoProps {
+  address: `0x${string}`;
+  isConnected: boolean;
+}
+
+const Actions = ({ address, isConnected }: WalletInfoProps) => {
 
   const { data, isError, isLoading } = useBalance({
     address,
@@ -21,7 +19,8 @@ const Actions = () => {
     return (
       <div className="text-center block mx-auto">
         <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl flex flex-col sm:block">
-          <span>Connected to</span>{" "}<span className="font-bold whitespace-normal">{ensName ?? address}</span>
+          <span>Connected to</span>{" "}
+          <span className="font-bold whitespace-normal">{address}</span>
         </div>
         <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl">
           Token: <span className="font-bold">{data?.symbol}</span>
@@ -39,14 +38,6 @@ const Actions = () => {
         </div>
       </div>
     );
-  return (
-    <button
-      className="px-4 py-2 bg-purple-800 mx-auto block text-sm sm:text-xl lg:text-2xl xl:text-3xl"
-      onClick={() => connect()}
-    >
-      Connect Wallet
-    </button>
-  );
 };
 
 export default Actions;
