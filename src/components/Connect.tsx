@@ -1,19 +1,40 @@
-import React from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import { useConnect } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 const Connect = () => {
+  const [isConnecting, setIsConnecting] = useState(false);
+
   const connector = new MetaMaskConnector();
-  const { connect, data } = useConnect({
+  const { connect } = useConnect({
     connector: connector,
+    onSuccess: () => {
+      setIsConnecting(true);
+    },
   });
 
   return (
     <button
-      className="px-4 py-2 bg-purple-800 mx-auto block text-sm sm:text-xl lg:text-2xl xl:text-3xl"
+      className="px-8 py-3 border mx-auto border-zinc-600 rounded-full text-sm flex items-center justify-between"
       onClick={() => connect()}
     >
-      Connect Wallet
+      <div className="me-3">
+        <Image
+          src="/images/metamask_logo.png"
+          alt="metamask_logo"
+          width={30}
+          height={30}
+        />
+      </div>
+        {isConnecting ? (
+          <>
+            <div className="ms=3 me-2">Connecting</div>
+            <span className="loader"></span>
+          </>
+        ) : (
+          <span className="ms-3 text-center">Connect Wallet</span>
+        )}
     </button>
   );
 };
