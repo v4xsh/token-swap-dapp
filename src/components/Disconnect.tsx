@@ -10,8 +10,8 @@ const Disconnect = () => {
 
   const { disconnect } = useDisconnect({
     onSuccess() {
-      setAddress(null);
       router.push("/login");
+      setAddress(null);
     },
   });
 
