@@ -46,22 +46,21 @@ const Swap = () => {
     } else if (tokenApprovalSuccess) {
       setChangeApprovalStatus(tokenApprovalSuccess);
     }
-  }, [tokenApprovalSuccess, swapSuccess])
+  }, [tokenApprovalSuccess, swapSuccess]);
 
   return (
-    <div>
-      <div>
-        SUSD amount
-        <input
-          type="number"
-          value={tokens}
-          onChange={(e) => setTokens(e.target.value)}
-        />
-      </div>
+    <div className="flex items-center gap-2">
+      <div className="text-xl">SUSD amount</div>
+      <input
+        className="px-3 py-2 text-black"
+        type="number"
+        value={tokens}
+        onChange={(e) => setTokens(e.target.value)}
+      />
       {!changeApprovalStatus ? (
         <button
           onClick={() => approveToken && approveToken()}
-          className="px-10 py-2 border text-xl bg-white border-purple-800 text-purple-600"
+          className="px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all"
           disabled={loadingTokenApproval}
         >
           Approve
@@ -70,7 +69,7 @@ const Swap = () => {
         <>
           <button
             onClick={() => swap && swap()}
-            className="px-10 py-2 border text-xl bg-white border-purple-800 text-purple-600"
+            className="px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all"
             // disabled={loadingTokenApproval}
           >
             Swap A to B
