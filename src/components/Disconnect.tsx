@@ -16,7 +16,7 @@ const Disconnect = () => {
   });
 
   return (
-    <button onClick={() => disconnect()} className="px-7 py-3 border text-xl">
+    <button onClick={() => disconnect()} className="px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all">
       Disconnect
     </button>
   );

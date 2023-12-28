@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { useBalance } from "wagmi";
 
 import { useTokenStore } from "../../store/useTokenStore";
+const Disconnect = dynamic(() => import("@/components/Disconnect"));
 
 const Profile = () => {
   const { address } = useTokenStore();
@@ -59,6 +61,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Disconnect />
     </div>
   );
 };
