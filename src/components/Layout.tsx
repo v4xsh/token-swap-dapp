@@ -1,11 +1,14 @@
 import React, { useEffect, ReactNode } from "react";
+import { useEnsAvatar, useEnsName } from "wagmi";
+
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useTokenStore } from "../../store/useTokenStore";
-import dynamic from "next/dynamic";
 
-const Disconnect = dynamic(() => import("@/components/Disconnect"));
+const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"));
+// const Disconnect = dynamic(() => import("@/components/Disconnect"));
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -16,6 +19,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
       router.push("/login");
     }
   }, [address]);
+
+  // Todo: Try and add useEnsName
+  // const { data: ensNameData } = useEnsName({ address: address });
+  // const { data: ensAvatarData } = useEnsAvatar({ name: ensNameData });
 
   return (
     <div>
@@ -32,7 +39,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             Swap
           </Link>
         </div>
-        <div>{address && <Disconnect />}</div>
+        <div>{address && <ProfileDropDown />}</div>
       </nav>
       <main>{children}</main>
     </div>
