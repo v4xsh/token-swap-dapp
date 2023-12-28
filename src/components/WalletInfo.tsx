@@ -1,13 +1,8 @@
 import React from "react";
 import { useAccount, useBalance } from "wagmi";
+import { AccountType } from "../../types/AccountType";
 
-interface WalletInfoProps {
-  address: `0x${string}`;
-  isConnected: boolean;
-}
-
-const Actions = ({ address, isConnected }: WalletInfoProps) => {
-
+const Actions = ({ address }: AccountType) => {
   const { data, isError, isLoading } = useBalance({
     address,
   });
@@ -15,7 +10,6 @@ const Actions = ({ address, isConnected }: WalletInfoProps) => {
   if (isLoading) return <div>Fetching balance…</div>;
   if (isError) return <div>Error fetching balance</div>;
 
-  if (isConnected)
     return (
       <div className="text-center block mx-auto">
         <div className="text-xs sm:text-xl lg:text-2xl xl:text-3xl flex flex-col sm:block">

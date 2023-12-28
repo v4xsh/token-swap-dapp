@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useContractReads, useContractWrite } from "wagmi";
+import {
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import Usdc from "../../abi/susd.json";
+import { useTokenStore } from "../../store/useTokenStore";
 
-const Mint = () => {
+const MintUSDC = () => {
+  const { address: walletAddress } = useTokenStore();
+
   const [usdcMintAmount, setUsdcMintAmount] = useState(0);
-
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+  const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
     abi: Usdc,
     functionName: "mint",
-    args: [usdcMintAmount],
+    args: [2000],
   });
+  const { data, isLoading, isSuccess, write, error } = useContractWrite(config);
 
   const usdcTokenContract = {
     address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
@@ -34,7 +41,7 @@ const Mint = () => {
       {
         ...usdcTokenContract,
         functionName: "balanceOf",
-        args: [process.env.NEXT_PUBLIC_PERSONAL_WALLET as `0x${string}`],
+        args: [walletAddress as `0x${string}`],
       },
     ],
   });
@@ -44,10 +51,12 @@ const Mint = () => {
   const [tokenCurrBalance, setTokenCurrBalance] = useState("");
 
   useEffect(() => {
-    setTokenSymbol(readTokenData[0].result);
-    setTokenName(readTokenData[1].result);
-    setTokenCurrBalance(readTokenData[2].result.toString());
-  });
+    if (readTokenData) {
+      setTokenSymbol(readTokenData[0].result);
+      setTokenName(readTokenData[1].result);
+      setTokenCurrBalance(String(readTokenData[2].result));
+    }
+  }, [readTokenData]);
 
   return (
     <div className="flex items-center flex-col gap-3">
@@ -64,7 +73,7 @@ const Mint = () => {
         className="text-black px-5 py-2 text-xl"
       />
       <button
-        disabled={!write}
+        // disabled={!write}
         onClick={() => write()}
         className="px-10 py-2 border text-xl"
       >
@@ -76,4 +85,4 @@ const Mint = () => {
   );
 };
 
-export default Mint;
+export default MintUSDC;

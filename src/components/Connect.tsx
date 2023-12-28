@@ -4,7 +4,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 const Connect = () => {
   const connector = new MetaMaskConnector();
-  const { connect } = useConnect({
+  const { connect, data } = useConnect({
     connector: connector,
   });
 

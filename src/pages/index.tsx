@@ -1,37 +1,32 @@
-import { useAccount } from "wagmi";
+import dynamic from "next/dynamic";
 
-import Connect from "@/components/Connect";
-import Disconnect from "@/components/Disconnect";
+import { useTokenStore } from "../../store/useTokenStore";
+import Layout from "@/components/Layout";
 
-import WalletInfo from "@/components/WalletInfo";
-import Susd from "@/components/Susd";
-import Usdc from "@/components/Usdc";
-import Swap from "@/components/Swap";
+const WalletInfo = dynamic(() => import("@/components/WalletInfo"), {
+  ssr: false,
+});
+const Susd = dynamic(() => import("@/components/MintSUSD"), { ssr: false });
+const Usdc = dynamic(() => import("@/components/MintUSDC"), { ssr: false });
+const SwapAToB = dynamic(() => import("@/components/SwapAToB"), { ssr: false });
+const SwapBToA = dynamic(() => import("@/components/SwapBToA"), { ssr: false });
 
 export default function Home() {
-  const { address, isConnected } = useAccount();
+
+  const { address } = useTokenStore();
 
   return (
-    <>
-      <nav className="flex items-center justify-between mx-20 my-8">
-        <div className="text-3xl font-bold uppercase">Token Swap dApp</div>
-        {isConnected && <Disconnect />}
-      </nav>
+    <Layout>
       <div className="m-5 sm:m-10 lg:m-20 xl:m-24 bg-purple-600 p-3 sm:p-5 lg:p-10 xl:p-36">
-        {!isConnected ? (
-          <Connect />
-        ) : (
+        {address && (
           <div className="mx-36">
-            <WalletInfo address={address} isConnected={isConnected} />
+            <WalletInfo address={address} />
             <br />
-            <div className="flex items-center justify-between my-10">
-              <Susd />
-              <Usdc />
-            </div>
-            <Swap />
+            <SwapAToB />
+            <SwapBToA />
           </div>
         )}
       </div>
-    </>
+    </Layout>
   );
 }

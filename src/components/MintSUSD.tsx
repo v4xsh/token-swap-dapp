@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useContractReads, useContractWrite } from "wagmi";
 import Susd from "../../abi/susd.json";
+import { useTokenStore } from "../../store/useTokenStore";
 
-const Mint = () => {
+const MintSUSD = () => {
+  const { address: walletAddress } = useTokenStore();
+
   const [susdMintAmount, setSusdMintAmount] = useState(0);
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
@@ -34,7 +37,7 @@ const Mint = () => {
       {
         ...susdTokenContract,
         functionName: "balanceOf",
-        args: [process.env.NEXT_PUBLIC_PERSONAL_WALLET as `0x${string}`],
+        args: [walletAddress as `0x${string}`],
       },
     ],
   });
@@ -46,7 +49,7 @@ const Mint = () => {
   useEffect(() => {
     setTokenSymbol(readTokenData[0].result);
     setTokenName(readTokenData[1].result);
-    setTokenCurrBalance(readTokenData[2].result.toString().slice(0, 10));
+    setTokenCurrBalance(readTokenData[2].result.toString());
   });
 
   return (
@@ -76,4 +79,4 @@ const Mint = () => {
   );
 };
 
-export default Mint;
+export default MintSUSD;

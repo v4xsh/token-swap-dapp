@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 
 import contract from "../../abi/contract.json";
-import Susd from "../../abi/susd.json";
+import Usdc from "../../abi/usdc.json";
 
 const Swap = () => {
   // Approve Token
   const { config: approveConfig } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
-    abi: Susd,
+    address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
+    abi: Usdc,
     functionName: "approve",
     args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, 20000],
     enabled: true,
@@ -25,7 +25,7 @@ const Swap = () => {
   const { config: swapConfig, error } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
     abi: contract,
-    functionName: "swapAToB",
+    functionName: "swapBToA",
     args: [20000],
     enabled: tokenApprovalSuccess,
   });
@@ -42,7 +42,7 @@ const Swap = () => {
   return (
     <div>
       <div>
-        SUSD amount
+        USDC amount
         <input
           type="number"
           value={tokens}
@@ -64,7 +64,7 @@ const Swap = () => {
             className="px-10 py-2 border text-xl bg-white border-purple-800 text-purple-600"
             // disabled={loadingTokenApproval}
           >
-            Swap
+            Swap B To A
           </button>
           {/* <div>{swappedOutput}</div> */}
         </>
