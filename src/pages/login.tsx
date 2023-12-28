@@ -7,12 +7,11 @@ import Connect from "@/components/Connect";
 
 const login = () => {
   const router = useRouter();
-  const { setAddress } = useTokenStore();
+  const { setAddress, address } = useTokenStore();
 
   useAccount({
     onConnect: ({ address }) => {
       if (address) {
-        console.log(address);
         setAddress(address);
         setTimeout(() => {
           router.push("/");
@@ -25,7 +24,7 @@ const login = () => {
   });
 
   return (
-    <div>
+    <div className="mt-32">
       <Connect />
     </div>
   );

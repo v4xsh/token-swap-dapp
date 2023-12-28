@@ -1,12 +1,16 @@
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDisconnect } from "wagmi";
+import { useTokenStore } from "../../store/useTokenStore";
 
 const Disconnect = () => {
   const router = useRouter();
 
+  const { setAddress } = useTokenStore();
+
   const { disconnect } = useDisconnect({
     onSuccess() {
+      setAddress(null);
       router.push("/login");
     },
   });

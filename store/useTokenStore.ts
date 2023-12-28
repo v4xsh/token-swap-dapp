@@ -1,21 +1,22 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-interface tokenStoreType {
+export interface tokenStoreType {
   address: `0x${string}` | null;
   setAddress: (address: `0x${string}` | null) => void;
 }
 
-export const useTokenStore = create<tokenStoreType>((set) => ({
-  address: null, // wallet address state
+export const useTokenStore = create(
+  persist(
+    (set) => ({
+      address: null,
 
-  setAddress: (address) => {
-    set({
-      address: address,
-    });
-  },
-
-  // balance states
-  // balanceData: null,
-  // balanceError: null,
-  // balanceLoading: false,
-}));
+      setAddress: (address: '0x${string}' | null) => {
+        set({
+          address: address,
+        });
+      },
+    }),
+    { name: "walletAddress" }
+  )
+);

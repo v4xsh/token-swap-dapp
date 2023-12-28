@@ -14,7 +14,8 @@
     "react-dom": "^18",
     "viem": "^1.21.0",
     "wagmi": "^1.4.12",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "zustand-persist": "^0.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const { publicClient } = configureChains([goerli], [publicProvider()]);
 
   const config = createConfig({
-    autoConnect: true, // Set Dynmaic Imports
+    autoConnect: true,
     publicClient,
     connectors: [new MetaMaskConnector()],
   });

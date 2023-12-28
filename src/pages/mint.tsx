@@ -1,8 +1,8 @@
-import React from "react";
-import MintSUSD from "@/components/MintSUSD";
-import MintUSDC from "@/components/MintUSDC";
+import dynamic from "next/dynamic";
 import Layout from "@/components/Layout";
-import { useTokenStore } from "../../store/useTokenStore";
+
+const MintSUSD = dynamic(() => import("@/components/MintSUSD"), { ssr: false });
+const MintUSDC = dynamic(() => import("@/components/MintUSDC"), { ssr: false });
 
 const mint = () => {
   return (
