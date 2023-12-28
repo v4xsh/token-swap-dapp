@@ -10,9 +10,7 @@ const Disconnect = dynamic(() => import("@/components/Disconnect"));
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
-  const { address }: { address: `0x${string}` | null } = useTokenStore(
-    (state) => state.address
-  );
+  const { address }: { address: `0x${string}` | null } = useTokenStore();
   useEffect(() => {
     if (!address) {
       router.push("/login");

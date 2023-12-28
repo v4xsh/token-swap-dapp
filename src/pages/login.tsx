@@ -7,7 +7,7 @@ import Connect from "@/components/Connect";
 
 const login = () => {
   const router = useRouter();
-  const { setAddress, address } = useTokenStore();
+  const { setAddress } = useTokenStore();
 
   useAccount({
     onConnect: ({ address }) => {
