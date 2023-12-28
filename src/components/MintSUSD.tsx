@@ -47,10 +47,12 @@ const MintSUSD = () => {
   const [tokenCurrBalance, setTokenCurrBalance] = useState("");
 
   useEffect(() => {
-    setTokenSymbol(readTokenData[0].result);
-    setTokenName(readTokenData[1].result);
-    setTokenCurrBalance(readTokenData[2].result.toString());
-  });
+    if (readTokenData) {
+      setTokenSymbol(readTokenData[0].result);
+      setTokenName(readTokenData[1].result);
+      setTokenCurrBalance(readTokenData[2].result.toString());
+    }
+  }, [readTokenData]);
 
   return (
     <div className="flex items-center flex-col gap-3">

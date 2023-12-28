@@ -16,7 +16,7 @@ const login = () => {
         setAddress(address);
         setTimeout(() => {
           router.push("/");
-        }, 1000);
+        }, 1500);
       }
     },
     onDisconnect: () => {
@@ -25,15 +25,15 @@ const login = () => {
   });
 
   return (
-    <div className="text-center">
-      <div className="mt-32 text-center border border-zinc-600 rounded-2xl py-8 px-10 inline-block shadow-inner hover:shadow-inner shadow-sky-700 hover:shadow-sky-500 transition-all">
-        <div className="mb-10 text-3xl font-normal">Token Swap DApp</div>
-        <div className="text-2xl font-light mb-1">Connect Wallet</div>
-        <div className="text-sm font-light mb-6">
+    <div className="flex h-screen">
+      <div className="m-auto text-center border border-zinc-600 rounded-2xl py-14 px-12 inline-block shadow-inner hover:shadow-inner shadow-sky-700 hover:shadow-sky-500 transition-all">
+        <div className="mb-10 text-4xl font-normal">Token Swap DApp</div>
+        <div className="text-3xl font-light mb-1">Connect Wallet</div>
+        <div className="text-base font-light mb-6">
           Choose a wallet to connect
         </div>
         <Connect />
-        <div className="mt-7 text-base">
+        <div className="mt-7 text-base font-light">
           Made with <span className="text-sky-500">{"♥"}</span> by Vansh
         </div>
       </div>

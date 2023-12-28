@@ -34,7 +34,7 @@ body {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  color: #fff;
+  color: rgba(14, 165, 233, 5);
 }
 .loader:before,
 .loader:after {
@@ -50,7 +50,7 @@ body {
   animation: 1s spin linear infinite;
 }
 .loader:after {
-  color: rgb(14 165 233 / var(5));
+  color: #fff;
   transform: rotateY(70deg);
   animation-delay: 0.4s;
 }

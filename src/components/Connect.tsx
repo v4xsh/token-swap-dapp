@@ -33,7 +33,7 @@ const Connect = () => {
             <span className="loader"></span>
           </>
         ) : (
-          <span className="ms-3 text-center">Connect Wallet</span>
+          <span className="ms-3 text-center">Connect Metamask</span>
         )}
     </button>
   );

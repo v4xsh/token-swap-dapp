@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <div>
       <nav className="flex items-center justify-between mx-20 my-8">
         <div className="flex items-center gap-10">
-          <div className="text-3xl font-bold uppercase">Token Swap dApp</div>
+          <div className="text-3xl font-light">TS DApp</div>
           <Link className="text-lg" href="/">
             Home
           </Link>
