@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useContractReads, useContractWrite } from "wagmi";
+import {
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import Susd from "../../abi/susd.json";
 import { useTokenStore } from "../../store/useTokenStore";
 
@@ -7,13 +11,13 @@ const MintSUSD = () => {
   const { address: walletAddress } = useTokenStore();
 
   const [susdMintAmount, setSusdMintAmount] = useState(0);
-
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+  const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
     abi: Susd,
     functionName: "mint",
     args: [susdMintAmount],
   });
+  const { data, isLoading, isSuccess, write, error } = useContractWrite(config);
 
   const susdTokenContract = {
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
@@ -51,7 +55,7 @@ const MintSUSD = () => {
     if (readTokenData) {
       setTokenSymbol(readTokenData[0].result);
       setTokenName(readTokenData[1].result);
-      setTokenCurrBalance(readTokenData[2].result.toString().slice(0,9));
+      setTokenCurrBalance(readTokenData[2].result.toString().slice(0, 10));
     }
   }, [readTokenData]);
 
@@ -70,14 +74,20 @@ const MintSUSD = () => {
         className="text-black px-5 py-2 text-xl"
       />
       <button
-        disabled={!write}
+        disabled={isLoading}
         onClick={() => write()}
-        className="px-10 py-2 border text-xl"
+        className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
+          isLoading &&
+          "cursor-not-allowed opacity-75 bg-blue-600 hover:bg-blue-600 hover:border-blue-600"
+        }`}
       >
-        Mint SUSD
+        {isLoading ? (
+          <div className="ms-3 me-2">Check Wallet</div>
+        ) : (
+          "Mint USDC"
+        )}{" "}
       </button>
-      {isLoading && <div>Check Wallet</div>}
-      {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
+      {isSuccess && <div>Transaction Hash: {JSON.stringify(data?.hash!)}</div>}
     </div>
   );
 };
