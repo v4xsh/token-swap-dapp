@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useContractReads, useContractWrite, usePrepareContractWrite } from "wagmi";
 
 import contract from "../../abi/contract.json";
 import Susd from "../../abi/susd.json";
+import { useTokenStore } from "../../store/useTokenStore";
 
 const Swap = () => {
   const [tokens, setTokens] = useState(0);
@@ -12,6 +13,8 @@ const Swap = () => {
     }
     setTokens(e.target.value);
   };
+
+  // ----------------------------------------------------------------------
 
   // Approve Token
   const { config: approveConfig, error: approveError } =
@@ -30,6 +33,8 @@ const Swap = () => {
     write: approveToken,
   } = useContractWrite(approveConfig);
 
+  // ----------------------------------------------------------------------
+
   // Swap Token
   const { config: swapConfig, error: swapError } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
@@ -46,6 +51,39 @@ const Swap = () => {
     write: swap,
   } = useContractWrite(swapConfig);
 
+  // ----------------------------------------------------------------------
+
+  const { address: walletAddress } = useTokenStore();
+
+  const susdTokenContract = {
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    abi: Susd,
+  };
+
+  const {
+    data: readTokenData,
+    isError,
+    isLoading: isLoadingTokenData,
+  } = useContractReads({
+    contracts: [
+      {
+        ...susdTokenContract,
+        functionName: "balanceOf",
+        args: [walletAddress as `0x${string}`],
+      },
+    ],
+    watch: true,
+  });
+
+  const [tokenCurrBalance, setTokenCurrBalance] = useState("");
+  useEffect(() => {
+    if (readTokenData) {
+      setTokenCurrBalance(readTokenData[0]?.result.toString().slice(0, 12));
+    }
+  }, [readTokenData]);
+
+  // ----------------------------------------------------------------------
+
   const [changeApprovalStatus, setChangeApprovalStatus] = useState(false);
   useEffect(() => {
     if (swapSuccess) {
@@ -59,17 +97,18 @@ const Swap = () => {
   }, [tokenApprovalSuccess]);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-0 flex-col">
       <div>
         <div className="text-xl mb-3">SUSD amount</div>
+        <div>{tokenCurrBalance}</div>
+      </div>
+      <div className="flex items-center gap-2">
         <input
           className="px-3 py-2 text-white bg-transparent border border-white rounded-2xl"
           type="number"
           value={tokens}
           onChange={setTokenHandler}
         />
-      </div>
-      <div>
         {!changeApprovalStatus ? (
           <button
             onClick={() => approveToken && approveToken()}
