@@ -45,14 +45,12 @@ const Swap = () => {
     write: swap,
   } = useContractWrite(swapConfig);
 
-  console.log(swapConfig, error, swap, 25);
-
   const [changeApprovalStatus, setChangeApprovalStatus] = useState(false);
   useEffect(() => {
     if (swapSuccess) {
       setChangeApprovalStatus(swapSuccess);
     } else if (tokenApprovalSuccess) {
-      setChangeApprovalStatus(tokenApprovalSuccess);
+      setChangeApprovalStatus(!tokenApprovalSuccess);
     }
   }, [tokenApprovalSuccess, swapSuccess]);
 

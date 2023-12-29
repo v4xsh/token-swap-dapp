@@ -40,6 +40,7 @@ const MintSUSD = () => {
         args: [walletAddress as `0x${string}`],
       },
     ],
+    watch: true,
   });
 
   const [tokenSymbol, setTokenSymbol] = useState("");
@@ -50,7 +51,7 @@ const MintSUSD = () => {
     if (readTokenData) {
       setTokenSymbol(readTokenData[0].result);
       setTokenName(readTokenData[1].result);
-      setTokenCurrBalance(readTokenData[2].result.toString());
+      setTokenCurrBalance(readTokenData[2].result.toString().slice(0,9));
     }
   }, [readTokenData]);
 

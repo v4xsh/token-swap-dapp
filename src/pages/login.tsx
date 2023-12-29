@@ -14,9 +14,7 @@ const login = () => {
     onConnect: ({ address }) => {
       if (address) {
         setAddress(address);
-        setTimeout(() => {
-          router.push("/");
-        }, 1500);
+        router.push("/");
       }
     },
     onDisconnect: () => {

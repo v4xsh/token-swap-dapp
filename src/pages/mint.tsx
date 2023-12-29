@@ -7,7 +7,7 @@ const MintUSDC = dynamic(() => import("@/components/MintUSDC"), { ssr: false });
 const mint = () => {
   return (
     <Layout>
-      <div className="flex items-center justify-between my-10">
+      <div className="flex items-center justify-between flex-col gap-10 my-10">
         <MintSUSD />
         <MintUSDC />
       </div>
