@@ -6,6 +6,7 @@ import {
 } from "wagmi";
 import Susd from "../../abi/susd.json";
 import { useTokenStore } from "../../store/useTokenStore";
+import Image from "next/image";
 
 const MintSUSD = () => {
   const { address: walletAddress } = useTokenStore();
@@ -59,6 +60,21 @@ const MintSUSD = () => {
     }
   }, [readTokenData]);
 
+  const [mintAmountError, setMintAmountError] = useState(false);
+  useEffect(() => {
+    if (susdMintAmount < 0) setMintAmountError(true);
+    else setMintAmountError(false);
+  }, [susdMintAmount]);
+
+  const writeHandler = () => {
+    if (susdMintAmount < 0) {
+      setMintAmountError(true);
+      return;
+    }
+    setMintAmountError(false);
+    write();
+  };
+
   return (
     <div className="flex items-center flex-col gap-3">
       <div>
@@ -74,8 +90,8 @@ const MintSUSD = () => {
         className="text-black px-5 py-2 text-xl"
       />
       <button
-        disabled={isLoading}
-        onClick={() => write()}
+        disabled={isLoading || mintAmountError}
+        onClick={writeHandler}
         className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
           isLoading &&
           "cursor-not-allowed opacity-75 bg-blue-600 hover:bg-blue-600 hover:border-blue-600"
@@ -84,9 +100,24 @@ const MintSUSD = () => {
         {isLoading ? (
           <div className="ms-3 me-2">Check Wallet</div>
         ) : (
-          "Mint USDC"
+          "Mint SUSD"
         )}{" "}
       </button>
+
+      {mintAmountError && (
+        <div className="flex items-center gap-1">
+          <Image
+            src="/images/warning.png"
+            alt="warning"
+            height={20}
+            width={20}
+          />
+          <div className="text-red-500">
+            Mint amount cannot be less than zero
+          </div>
+        </div>
+      )}
+
       {isSuccess && <div>Transaction Hash: {JSON.stringify(data?.hash!)}</div>}
     </div>
   );
