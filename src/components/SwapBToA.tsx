@@ -14,13 +14,14 @@ const Swap = () => {
   };
 
   // Approve Token
-  const { config: approveConfig } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
-    abi: Usdc,
-    functionName: "approve",
-    args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
-    enabled: true,
-  });
+  const { config: approveConfig, error: approveError } =
+    usePrepareContractWrite({
+      address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
+      abi: Usdc,
+      functionName: "approve",
+      args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
+      enabled: true,
+    });
 
   const {
     data: approvedTokenData,
@@ -30,7 +31,7 @@ const Swap = () => {
   } = useContractWrite(approveConfig);
 
   // Swap Token
-  const { config: swapConfig, error } = usePrepareContractWrite({
+  const { config: swapConfig, error: swapError } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
     abi: contract,
     functionName: "swapBToA",
@@ -40,7 +41,7 @@ const Swap = () => {
 
   const {
     data: swappedOutput,
-    isLoading: loadingSwappingOp,
+    isLoading: loadingSwapping,
     isSuccess: swapSuccess,
     write: swap,
   } = useContractWrite(swapConfig);
@@ -48,11 +49,14 @@ const Swap = () => {
   const [changeApprovalStatus, setChangeApprovalStatus] = useState(false);
   useEffect(() => {
     if (swapSuccess) {
-      setChangeApprovalStatus(swapSuccess);
-    } else if (tokenApprovalSuccess) {
-      setChangeApprovalStatus(tokenApprovalSuccess);
+      setChangeApprovalStatus(false);
     }
-  }, [tokenApprovalSuccess, swapSuccess]);
+  }, [swapSuccess]);
+  useEffect(() => {
+    if (tokenApprovalSuccess) {
+      setChangeApprovalStatus(true);
+    }
+  }, [tokenApprovalSuccess]);
 
   return (
     <div className="flex items-center gap-4">
@@ -69,19 +73,23 @@ const Swap = () => {
         {!changeApprovalStatus ? (
           <button
             onClick={() => approveToken && approveToken()}
-            className="px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all"
+            className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
+              loadingTokenApproval && "opacity-75 cursor-no-drop"
+            }`}
             disabled={loadingTokenApproval}
           >
-            Approve
+            {loadingTokenApproval ? "loading.." : "Approve"}
           </button>
         ) : (
           <>
             <button
               onClick={() => swap && swap()}
-              className="px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all"
-              // disabled={loadingTokenApproval}
+              className={`px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all  ${
+                loadingSwapping && "opacity-75 cursor-no-drop"
+              }`}
+              disabled={loadingSwapping}
             >
-              Swap A to B
+              {loadingSwapping ? "loading.." : "Swap B to A"}
             </button>
             {/* <div>{swappedOutput}</div> */}
           </>
