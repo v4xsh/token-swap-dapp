@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
-      <nav className="flex items-center justify-between mx-20 my-8">
+      <nav className="flex items-center justify-between mx-20 mb-8 mt-3">
         <div className="flex items-center gap-10">
           <div className="text-3xl font-light">TS DApp</div>
           <Link className="text-lg" href="/">
