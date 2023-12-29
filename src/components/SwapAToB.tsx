@@ -78,7 +78,7 @@ const Swap = () => {
   const [tokenCurrBalance, setTokenCurrBalance] = useState("");
   useEffect(() => {
     if (readTokenData) {
-      setTokenCurrBalance(readTokenData[0]?.result.toString().slice(0, 12));
+      setTokenCurrBalance(readTokenData[0]?.result?.toString().slice(0, 12));
     }
   }, [readTokenData]);
 
