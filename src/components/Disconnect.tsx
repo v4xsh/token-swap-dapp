@@ -6,12 +6,14 @@ import { useTokenStore } from "../../store/useTokenStore";
 const Disconnect = () => {
   const router = useRouter();
 
-  const { setAddress } = useTokenStore();
+  const { setAddress, address } = useTokenStore();
 
   const { disconnect } = useDisconnect({
     onSuccess() {
-      router.push("/login");
-      setAddress(null);
+      if (address) {
+        setAddress(null);
+        router.push("/login");
+      }
     },
   });
 

@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { useTokenStore } from "../../store/useTokenStore";
 
-const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"));
+const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"), { ssr: false });
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

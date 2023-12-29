@@ -5,7 +5,9 @@ import dynamic from "next/dynamic";
 import { useBalance } from "wagmi";
 
 import { useTokenStore } from "../../store/useTokenStore";
-const Disconnect = dynamic(() => import("@/components/Disconnect"));
+const Disconnect = dynamic(() => import("@/components/Disconnect"), {
+  ssr: false,
+});
 
 const Profile = () => {
   const { address } = useTokenStore();
@@ -39,7 +41,7 @@ const Profile = () => {
             height={30}
           />
           <div className="text-black">
-            {address.slice(0, 6) + "..." + address.slice(-4)}
+            {address && address.slice(0, 6) + "..." + address.slice(-4)}
           </div>
         </button>
 

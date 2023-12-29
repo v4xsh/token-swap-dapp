@@ -10,7 +10,7 @@ export default function Home() {
     <Layout>
       <div className="flex h-screen">
         <div className="mx-auto mt-24 mb-auto text-center border border-zinc-600 rounded-2xl py-14 px-36 inline-block">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-6">
             <SwapAToB />
             <SwapBToA />
           </div>
