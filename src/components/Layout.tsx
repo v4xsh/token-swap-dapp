@@ -34,9 +34,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
           <Link className="text-lg" href="/mint">
             Mint
           </Link>
-          <Link className="text-lg" href="/swap">
-            Swap
-          </Link>
         </div>
         <div>{address && <ProfileDropDown />}</div>
       </nav>
