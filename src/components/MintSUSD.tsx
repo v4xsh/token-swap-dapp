@@ -82,27 +82,29 @@ const MintSUSD = () => {
         {" - "}
         {tokenSymbol}
       </div>
-      <div>Balance: {tokenCurrBalance}</div>
-      <input
-        type="number"
-        onChange={(e) => setSusdMintAmount(parseFloat(e.target.value))}
-        value={susdMintAmount}
-        className="text-black px-5 py-2 text-xl"
-      />
-      <button
-        disabled={isLoading || mintAmountError}
-        onClick={writeHandler}
-        className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
-          isLoading &&
-          "cursor-not-allowed opacity-75 bg-blue-600 hover:bg-blue-600 hover:border-blue-600"
-        }`}
-      >
-        {isLoading ? (
-          <div className="ms-3 me-2">Check Wallet</div>
-        ) : (
-          "Mint SUSD"
-        )}{" "}
-      </button>
+      <div><span className="me-1 font-bold">Balance:</span>{tokenCurrBalance}</div>
+      <div className="flex items-center gap-2">
+        <input
+          type="number"
+          onChange={(e) => setSusdMintAmount(parseFloat(e.target.value))}
+          value={susdMintAmount}
+          className="text-black px-5 py-2 text-xl"
+        />
+        <button
+          disabled={isLoading || mintAmountError}
+          onClick={writeHandler}
+          className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
+            isLoading &&
+            "cursor-not-allowed opacity-75 bg-blue-600 hover:bg-blue-600 hover:border-blue-600"
+          }`}
+        >
+          {isLoading ? (
+            <div className="ms-3 me-2">Check Wallet</div>
+          ) : (
+            "Mint SUSD"
+          )}{" "}
+        </button>
+      </div>
 
       {mintAmountError && (
         <div className="flex items-center gap-1">
