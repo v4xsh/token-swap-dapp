@@ -56,7 +56,7 @@ const MintUSDC = () => {
     if (readTokenData) {
       setTokenSymbol(readTokenData[0].result);
       setTokenName(readTokenData[1].result);
-      setTokenCurrBalance(String(readTokenData[2].result).slice(0, 10));
+      setTokenCurrBalance(String(readTokenData[2].result).slice(0, 12));
     }
   }, [readTokenData]);
 
