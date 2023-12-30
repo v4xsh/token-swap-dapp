@@ -41,8 +41,6 @@ const Swap = () => {
     watch: true,
   });
 
-  console.log(allowanceData, 30);
-
   // ----------------------------------------------------------------------
 
   // Approve Token

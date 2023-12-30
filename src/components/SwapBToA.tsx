@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useContractReads, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useContractRead,
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 
 import contract from "../../abi/contract.json";
 import Usdc from "../../abi/usdc.json";
@@ -13,6 +18,28 @@ const Swap = () => {
     }
     setTokens(e.target.value);
   };
+
+  // ----------------------------------------------------------------------
+
+  const { address: walletAddress } = useTokenStore();
+
+  // ----------------------------------------------------------------------
+
+  const {
+    data: allowanceData,
+    isError: allowanceError,
+    isLoading: allowanceLoading,
+  } = useContractRead({
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    abi: Usdc,
+    functionName: "allowance",
+    args: [
+      walletAddress,
+      process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
+    ],
+    enabled: !!walletAddress,
+    watch: true,
+  });
 
   // ----------------------------------------------------------------------
 
@@ -53,8 +80,6 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const { address: walletAddress } = useTokenStore();
-
   const usdcTokenContract = {
     address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
     abi: Usdc,
@@ -74,7 +99,7 @@ const Swap = () => {
     ],
     watch: true,
   });
-  
+
   const [tokenCurrBalance, setTokenCurrBalance] = useState("");
   useEffect(() => {
     if (readTokenData) {
@@ -109,30 +134,19 @@ const Swap = () => {
           value={tokens}
           onChange={setTokenHandler}
         />
-        {!changeApprovalStatus ? (
-          <button
-            onClick={() => approveToken && approveToken()}
-            className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
-              loadingTokenApproval && "opacity-75 cursor-no-drop"
-            }`}
-            disabled={loadingTokenApproval}
-          >
-            {loadingTokenApproval ? "loading.." : "Approve"}
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={() => swap && swap()}
-              className={`px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all  ${
-                loadingSwapping && "opacity-75 cursor-no-drop"
-              }`}
-              disabled={loadingSwapping}
-            >
-              {loadingSwapping ? "loading.." : "Swap B to A"}
-            </button>
-            {/* <div>{swappedOutput}</div> */}
-          </>
-        )}
+        <button
+          onClick={() =>
+            (allowanceData as bigint) > 0n
+              ? approveToken && approveToken()
+              : swap && swap()
+          }
+          className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
+            loadingTokenApproval && "opacity-75 cursor-no-drop"
+          }`}
+          disabled={loadingTokenApproval}
+        >
+          {(allowanceData as bigint) > 0n ? "Swap B To A" : "Approve"}
+        </button>
       </div>
     </div>
   );
