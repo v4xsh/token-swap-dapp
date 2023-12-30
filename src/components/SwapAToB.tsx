@@ -25,21 +25,23 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  // const {
-  //   data: allowanceData,
-  //   isError: allowanceError,
-  //   isLoading: allowanceLoading,
-  // } = useContractRead({
-  //   address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
-  //   abi: Susd,
-  //   functionName: "allowance",
-  //   args: [
-  //     walletAddress,
-  //     process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
-  //   ],
-  // });
+  const {
+    data: allowanceData,
+    isError: allowanceError,
+    isLoading: allowanceLoading,
+  } = useContractRead({
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    abi: Susd,
+    functionName: "allowance",
+    args: [
+      walletAddress,
+      process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    ],
+    enabled: !!walletAddress,
+    watch: true,
+  });
 
-  // console.log(allowanceData, 30);
+  console.log(allowanceData, 30);
 
   // ----------------------------------------------------------------------
 
@@ -50,7 +52,7 @@ const Swap = () => {
       abi: Susd,
       functionName: "approve",
       args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
-      // enabled: allowanceLoading,
+      enabled: (allowanceData as bigint) === 0n,
     });
 
   const {
@@ -134,30 +136,19 @@ const Swap = () => {
           value={tokens}
           onChange={setTokenHandler}
         />
-        {!changeApprovalStatus ? (
-          <button
-            onClick={() => approveToken && approveToken()}
-            className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
-              loadingTokenApproval && "opacity-75 cursor-no-drop"
-            }`}
-            disabled={loadingTokenApproval}
-          >
-            {loadingTokenApproval ? "loading.." : "Approve"}
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={() => swap && swap()}
-              className={`px-7 py-3 border text-base rounded-full hover:text-black hover:bg-white transition-all  ${
-                loadingSwapping && "opacity-75 cursor-no-drop"
-              }`}
-              disabled={loadingSwapping}
-            >
-              {loadingSwapping ? "loading.." : "Swap A to B"}
-            </button>
-            {/* <div>{swappedOutput}</div> */}
-          </>
-        )}
+        <button
+          onClick={() =>
+            (allowanceData as bigint) > 0n
+              ? approveToken && approveToken()
+              : swap && swap()
+          }
+          className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
+            loadingTokenApproval && "opacity-75 cursor-no-drop"
+          }`}
+          disabled={loadingTokenApproval}
+        >
+          {(allowanceData as bigint) > 0n ? "Swap A To B" : "Approve"}
+        </button>
       </div>
     </div>
   );
