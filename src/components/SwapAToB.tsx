@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useContractReads, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useContractRead,
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 
 import contract from "../../abi/contract.json";
 import Susd from "../../abi/susd.json";
@@ -16,6 +21,28 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
+  const { address: walletAddress } = useTokenStore();
+
+  // ----------------------------------------------------------------------
+
+  // const {
+  //   data: allowanceData,
+  //   isError: allowanceError,
+  //   isLoading: allowanceLoading,
+  // } = useContractRead({
+  //   address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+  //   abi: Susd,
+  //   functionName: "allowance",
+  //   args: [
+  //     walletAddress,
+  //     process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+  //   ],
+  // });
+
+  // console.log(allowanceData, 30);
+
+  // ----------------------------------------------------------------------
+
   // Approve Token
   const { config: approveConfig, error: approveError } =
     usePrepareContractWrite({
@@ -23,7 +50,7 @@ const Swap = () => {
       abi: Susd,
       functionName: "approve",
       args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
-      enabled: true,
+      // enabled: allowanceLoading,
     });
 
   const {
@@ -52,8 +79,6 @@ const Swap = () => {
   } = useContractWrite(swapConfig);
 
   // ----------------------------------------------------------------------
-
-  const { address: walletAddress } = useTokenStore();
 
   const susdTokenContract = {
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
