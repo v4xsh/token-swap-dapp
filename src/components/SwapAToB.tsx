@@ -25,17 +25,14 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const {
-    data: allowanceData,
-    isError: allowanceError,
-    isLoading: allowanceLoading,
-  } = useContractRead({
+  // Read Allowance Balance
+  const { data: allowanceData } = useContractRead({
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
     abi: Susd,
     functionName: "allowance",
     args: [
       walletAddress,
-      process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
     ],
     enabled: !!walletAddress,
     watch: true,
@@ -68,7 +65,8 @@ const Swap = () => {
     abi: contract,
     functionName: "swapAToB",
     args: [tokens],
-    enabled: tokenApprovalSuccess,
+    enabled:
+      (allowanceData as bigint) >= 0n && tokens <= (allowanceData as bigint),
   });
 
   const {
@@ -80,6 +78,7 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
+  // Read Token Balance
   const susdTokenContract = {
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
     abi: Susd,
@@ -109,23 +108,14 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const [changeApprovalStatus, setChangeApprovalStatus] = useState(false);
-  useEffect(() => {
-    if (swapSuccess) {
-      setChangeApprovalStatus(false);
-    }
-  }, [swapSuccess]);
-  useEffect(() => {
-    if (tokenApprovalSuccess) {
-      setChangeApprovalStatus(true);
-    }
-  }, [tokenApprovalSuccess]);
-
   return (
     <div className="flex items-center gap-0 flex-col">
       <div>
         <div className="text-xl mb-3">SUSD amount</div>
         <div>{tokenCurrBalance}</div>
+        <div>
+          <span>Allowance:</span> {allowanceData?.toString()}
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <input
@@ -137,13 +127,13 @@ const Swap = () => {
         <button
           onClick={() =>
             (allowanceData as bigint) > 0n
-              ? approveToken && approveToken()
-              : swap && swap()
+              ? swap && swap()
+              : approveToken && approveToken()
           }
           className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
-            loadingTokenApproval && "opacity-75 cursor-no-drop"
+            loadingTokenApproval || loadingSwapping && "opacity-75 cursor-no-drop"
           }`}
-          disabled={loadingTokenApproval}
+          disabled={loadingTokenApproval || loadingSwapping}
         >
           {(allowanceData as bigint) > 0n ? "Swap A To B" : "Approve"}
         </button>
