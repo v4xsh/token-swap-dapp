@@ -160,7 +160,7 @@ const Swap = () => {
         {loadingTx && (
           <>
             <span className="absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2 loader z-50"></span>
-            <div className="h-screen w-screen z-10 bg-black opacity-40 absolute top-0 left-0"></div>
+            <div className="backdrop h-screen w-screen z-10 bg-black opacity-60 absolute top-0 left-0"></div>
           </>
         )}
       </div>
