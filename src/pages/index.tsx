@@ -5,6 +5,10 @@ import Layout from "@/components/Layout";
 const SwapAToB = dynamic(() => import("@/components/SwapAToB"), { ssr: false });
 const SwapBToA = dynamic(() => import("@/components/SwapBToA"), { ssr: false });
 
+const FetchTxLogs = dynamic(() => import("@/components/FetchTxLogs"), {
+  ssr: false,
+});
+
 export default function Home() {
   return (
     <Layout>
@@ -15,6 +19,7 @@ export default function Home() {
             <SwapBToA />
           </div>
         </div>
+        <FetchTxLogs />
       </div>
     </Layout>
   );
