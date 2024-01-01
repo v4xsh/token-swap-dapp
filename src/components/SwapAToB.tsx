@@ -4,6 +4,7 @@ import {
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 
 import contract from "../../abi/contract.json";
@@ -70,11 +71,28 @@ const Swap = () => {
   });
 
   const {
-    data: swappedOutput,
+    data: swappedTokenData,
     isLoading: loadingSwapping,
     isSuccess: swapSuccess,
     write: swap,
   } = useContractWrite(swapConfig);
+
+  // ----------------------------------------------------------------------
+
+  const [hash, setHash] = useState<null | `0x${string}` | undefined>(null);
+  const {
+    data: txData,
+    isError: errorTx,
+    isLoading: loadingTx,
+  } = useWaitForTransaction({
+    hash,
+    enabled: !!hash,
+  });
+
+  useEffect(() => {
+    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash);
+    if (swapSuccess) setHash(swappedTokenData?.hash);
+  }, [loadingTokenApproval, tokenApprovalSuccess, loadingSwapping]);
 
   // ----------------------------------------------------------------------
 
@@ -131,12 +149,20 @@ const Swap = () => {
               : approveToken && approveToken()
           }
           className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
-            loadingTokenApproval || loadingSwapping && "opacity-75 cursor-no-drop"
+            loadingTokenApproval ||
+            loadingSwapping ||
+            (loadingTx && "opacity-75 cursor-no-drop")
           }`}
-          disabled={loadingTokenApproval || loadingSwapping}
+          disabled={loadingTokenApproval || loadingSwapping || loadingTx}
         >
           {(allowanceData as bigint) > 0n ? "Swap A To B" : "Approve"}
         </button>
+        {loadingTx && (
+          <>
+            <span className="absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2 loader z-50"></span>
+            <div className="h-screen w-screen z-10 bg-black opacity-40 absolute top-0 left-0"></div>
+          </>
+        )}
       </div>
     </div>
   );

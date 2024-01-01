@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
-      <nav className="flex items-center justify-between mx-20 mb-8 mt-3">
+      <nav className="fixed top-0 left-0 right-0 flex items-center justify-between py3 mx-20 mb-8 mt-3">
         <div className="flex items-center gap-10">
           <div className="text-3xl font-light">TS DApp</div>
           <Link className="text-lg" href="/">
@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             Tx History
           </Link>
         </div>
-        <div>{address && <ProfileDropDown />}</div>
+        <div className="ml-auto">{address && <ProfileDropDown />}</div>
       </nav>
       <main>{children}</main>
     </div>
