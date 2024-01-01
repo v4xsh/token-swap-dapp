@@ -34,6 +34,6 @@ const FetchTxLogs = () => {
 
     fetchData();
   }, []);
-  return <div>FetchTxLogs</div>;
+  return <div></div>;
 };
 export default FetchTxLogs;
