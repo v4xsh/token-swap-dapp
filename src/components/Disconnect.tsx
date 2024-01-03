@@ -1,12 +1,12 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDisconnect } from "wagmi";
-import { useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 
 const Disconnect = () => {
   const router = useRouter();
 
-  const { setAddress, address } = useTokenStore();
+  const { setAddress, address } = useTokenStore() as tokenStoreType;
 
   const { disconnect } = useDisconnect({
     onSuccess() {

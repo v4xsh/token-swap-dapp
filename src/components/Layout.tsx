@@ -14,7 +14,7 @@ const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"), {
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
-  const { address }: { address: `0x${string}` | null } = useTokenStore() as {
+  const { address } = useTokenStore() as {
     address: `0x${string}` | null;
   };
   useEffect(() => {

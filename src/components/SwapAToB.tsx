@@ -23,10 +23,9 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const { address: walletAddress }: { address: `0x${string}` | null } =
-    useTokenStore() as {
-      address: `0x${string}` | null;
-    };
+  const { address: walletAddress } = useTokenStore() as {
+    address: `0x${string}` | null;
+  };
 
   // ----------------------------------------------------------------------
 
@@ -121,7 +120,9 @@ const Swap = () => {
     watch: true,
   });
 
-  const [tokenCurrBalance, setTokenCurrBalance] = useState<string | undefined>("");
+  const [tokenCurrBalance, setTokenCurrBalance] = useState<string | undefined>(
+    ""
+  );
   useEffect(() => {
     if (readTokenData) {
       setTokenCurrBalance(readTokenData[0]?.result?.toString().slice(0, 12));
