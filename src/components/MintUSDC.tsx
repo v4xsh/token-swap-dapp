@@ -5,11 +5,11 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Usdc from "../../abi/susd.json";
-import { useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 import Image from "next/image";
 
 const MintUSDC = () => {
-  const { address: walletAddress } = useTokenStore();
+  const { address: walletAddress } = useTokenStore() as tokenStoreType;
 
   const [usdcMintAmount, setUsdcMintAmount] = useState(0);
   const { config } = usePrepareContractWrite({

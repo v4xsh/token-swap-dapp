@@ -1,5 +1,4 @@
 import React, { useEffect, ReactNode } from "react";
-import { useEnsAvatar, useEnsName } from "wagmi";
 
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Susd from "../../abi/susd.json";
 import { publicClient } from "@/pages/_app";
-import { env } from "process";
 import { useTokenStore } from "../../store/useTokenStore";
 
 type TransactionType = {

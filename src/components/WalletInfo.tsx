@@ -3,7 +3,9 @@ import { useBalance } from "wagmi";
 import { useTokenStore } from "../../store/useTokenStore";
 
 const Actions = () => {
-  const { address } = useTokenStore();
+  const { address } = useTokenStore() as {
+    address: `0x${string}`
+  };
 
   const { data, isError, isLoading } = useBalance({
     address,

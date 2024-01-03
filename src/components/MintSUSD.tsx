@@ -5,11 +5,11 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Susd from "../../abi/susd.json";
-import { useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 import Image from "next/image";
 
 const MintSUSD = () => {
-  const { address: walletAddress } = useTokenStore();
+  const { address: walletAddress } = useTokenStore() as tokenStoreType;
 
   const [susdMintAmount, setSusdMintAmount] = useState(0);
   const { config } = usePrepareContractWrite({
@@ -56,7 +56,7 @@ const MintSUSD = () => {
     if (readTokenData) {
       setTokenSymbol(readTokenData[0].result);
       setTokenName(readTokenData[1].result);
-      setTokenCurrBalance(readTokenData[2].result?.toString().slice(0, 12));
+      setTokenCurrBalance(String(readTokenData[2].result).slice(0, 12));
     }
   }, [readTokenData]);
 
@@ -82,7 +82,10 @@ const MintSUSD = () => {
         {" - "}
         {tokenSymbol}
       </div>
-      <div><span className="me-1 font-bold">Balance:</span>{tokenCurrBalance}</div>
+      <div>
+        <span className="me-1 font-bold">Balance:</span>
+        {tokenCurrBalance}
+      </div>
       <div className="flex items-center gap-2">
         <input
           type="number"
