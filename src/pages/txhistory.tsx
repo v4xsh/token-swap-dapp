@@ -37,7 +37,7 @@ const txhistory = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-start flex-col gap-4">
+      <div className="flex items-center justify-start flex-col gap-4 mt-36">
         <div className="flex items-center w-6/12">
           <input
             className="text-black px-5 py-2 text-base w-full"
