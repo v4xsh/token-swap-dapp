@@ -2,6 +2,8 @@ import Layout from "@/components/Layout";
 import React, { useEffect, useState } from "react";
 import { useTransaction } from "wagmi";
 
+let timer: number;
+
 const txhistory = () => {
   const [hash, setHash] = useState<`0x${string}`>();
 
@@ -10,30 +12,36 @@ const txhistory = () => {
   });
 
   const [transactionState, setTransactionState] = useState({
-    blockHash: null,
-    blockNumber: null,
-    chainId: null,
-    from: null,
-    gas: null,
-    gasPrice: null,
-    to: null,
+    blockHash: "",
+    blockNumber: "",
+    chainId: "",
+    from: "",
+    gas: "",
+    gasPrice: "",
+    to: "",
   });
 
   useEffect(() => {
     if (data) {
       setTransactionState((prevState) => ({
         ...prevState,
-        blockHash: data?.blockHash?.toString(),
-        blockNumber: data?.blockNumber?.toString(),
-        chainId: data?.chainId?.toString(),
-        from: data?.from?.toString(),
-        gas: data?.gas?.toString(),
-        gasPrice: data?.gasPrice?.toString(),
-        to: data?.to?.toString(),
+        blockHash: data?.blockHash?.toString()!,
+        blockNumber: data?.blockNumber?.toString()!,
+        chainId: data?.chainId?.toString()!,
+        from: data?.from?.toString()!,
+        gas: data?.gas?.toString()!,
+        gasPrice: data?.gasPrice?.toString()!,
+        to: data?.to?.toString()!,
       }));
       console.log(data);
     }
   }, [data]);
+
+  const setHashHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTimeout(() => {
+      setHash(e.target.value.toString() as `0x${string}`);
+    }, 3000);
+  };
 
   return (
     <Layout>
