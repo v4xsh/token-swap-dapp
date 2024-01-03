@@ -7,12 +7,16 @@ import Link from "next/link";
 
 import { useTokenStore } from "../../store/useTokenStore";
 
-const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"), { ssr: false });
+const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"), {
+  ssr: false,
+});
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
-  const { address }: { address: `0x${string}` | null } = useTokenStore();
+  const { address }: { address: `0x${string}` | null } = useTokenStore() as {
+    address: `0x${string}` | null;
+  };
   useEffect(() => {
     if (!address) {
       router.push("/login");
