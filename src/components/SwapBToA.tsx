@@ -80,7 +80,7 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const [hash, setHash] = useState<null | `0x${string}` | undefined>(null);
+  const [hash, setHash] = useState<`0x${string}`>();
   const {
     data: txData,
     isError: errorTx,
@@ -91,8 +91,8 @@ const Swap = () => {
   });
 
   useEffect(() => {
-    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash);
-    if (swapSuccess) setHash(swappedTokenData?.hash);
+    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash as `0x${string}`);
+    if (swapSuccess) setHash(swappedTokenData?.hash as `0x${string}`);
   }, [loadingTokenApproval, tokenApprovalSuccess, loadingSwapping]);
 
   // ----------------------------------------------------------------------

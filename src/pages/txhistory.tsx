@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useTransaction } from "wagmi";
 
 const txhistory = () => {
-  const [hash, setHash] = useState("");
+  const [hash, setHash] = useState<`0x${string}`>();
 
   const { data, isError, isLoading } = useTransaction({
     hash,
@@ -31,7 +31,7 @@ const txhistory = () => {
         gasPrice: data?.gasPrice?.toString(),
         to: data?.to?.toString(),
       }));
-    console.log(data)
+      console.log(data);
     }
   }, [data]);
 
@@ -44,7 +44,7 @@ const txhistory = () => {
             placeholder="Enter Tx Hash"
             type="text"
             value={hash}
-            onChange={(e) => setHash(e.target.value.toString())}
+            onChange={(e) => setHash(e.target.value.toString() as `0x${string}`)}
           />
         </div>
         <div>

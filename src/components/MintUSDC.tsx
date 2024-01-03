@@ -82,7 +82,10 @@ const MintUSDC = () => {
         {" - "}
         {tokenSymbol}
       </div>
-      <div><span className="me-1 font-bold">Balance:</span>{tokenCurrBalance}</div>
+      <div>
+        <span className="me-1 font-bold">Balance:</span>
+        {tokenCurrBalance}
+      </div>
       <div className="flex items-center gap-2">
         <input
           type="number"
