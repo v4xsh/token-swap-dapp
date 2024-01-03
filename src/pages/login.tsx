@@ -1,14 +1,14 @@
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 
-import { useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 
 import Connect from "@/components/Connect";
 import { useState } from "react";
 
 const login = () => {
   const router = useRouter();
-  const { setAddress } = useTokenStore();
+  const { setAddress } = useTokenStore() as tokenStoreType;
 
   useAccount({
     onConnect: ({ address }) => {

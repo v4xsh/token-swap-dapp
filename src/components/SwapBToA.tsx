@@ -9,7 +9,7 @@ import {
 
 import contract from "../../abi/contract.json";
 import Usdc from "../../abi/usdc.json";
-import { useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 
 const Swap = () => {
   const [tokens, setTokens] = useState<number>(0);
@@ -23,9 +23,7 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const { address: walletAddress } = useTokenStore() as {
-    address: `0x${string}` | null;
-  };
+  const { address: walletAddress } = useTokenStore() as tokenStoreType;
 
   // ----------------------------------------------------------------------
 

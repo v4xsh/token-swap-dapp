@@ -10,8 +10,12 @@ const Disconnect = dynamic(() => import("@/components/Disconnect"), {
 });
 
 const Profile = () => {
-  const { address } = useTokenStore() as {
-    address: `0x${string}`
+  const {
+    address,
+  }: {
+    address?: `0x${string}`;
+  } = useTokenStore() as {
+    address: `0x${string}`;
   };
 
   const { data, isError, isLoading } = useBalance({
