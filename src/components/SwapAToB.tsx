@@ -12,17 +12,21 @@ import Susd from "../../abi/susd.json";
 import { useTokenStore } from "../../store/useTokenStore";
 
 const Swap = () => {
-  const [tokens, setTokens] = useState(0);
-  const setTokenHandler = (e) => {
-    if (e.target.value < 0) {
+  const [tokens, setTokens] = useState<number>(0);
+  const setTokenHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (value < 0) {
       return;
     }
-    setTokens(e.target.value);
+    setTokens(value);
   };
 
   // ----------------------------------------------------------------------
 
-  const { address: walletAddress } = useTokenStore();
+  const { address: walletAddress }: { address: `0x${string}` | null } =
+    useTokenStore() as {
+      address: `0x${string}` | null;
+    };
 
   // ----------------------------------------------------------------------
 
@@ -79,7 +83,7 @@ const Swap = () => {
 
   // ----------------------------------------------------------------------
 
-  const [hash, setHash] = useState<null | `0x${string}` | undefined>(null);
+  const [hash, setHash] = useState<`0${string}` | undefined>();
   const {
     data: txData,
     isError: errorTx,
@@ -90,8 +94,8 @@ const Swap = () => {
   });
 
   useEffect(() => {
-    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash);
-    if (swapSuccess) setHash(swappedTokenData?.hash);
+    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash as `0${string}`);
+    if (swapSuccess) setHash(swappedTokenData?.hash as `0${string}`);
   }, [loadingTokenApproval, tokenApprovalSuccess, loadingSwapping]);
 
   // ----------------------------------------------------------------------
@@ -117,7 +121,7 @@ const Swap = () => {
     watch: true,
   });
 
-  const [tokenCurrBalance, setTokenCurrBalance] = useState("");
+  const [tokenCurrBalance, setTokenCurrBalance] = useState<string | undefined>("");
   useEffect(() => {
     if (readTokenData) {
       setTokenCurrBalance(readTokenData[0]?.result?.toString().slice(0, 12));
