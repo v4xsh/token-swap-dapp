@@ -10,6 +10,7 @@ import {
 import contract from "../../abi/contract.json";
 import Usdc from "../../abi/usdc.json";
 import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
+import { type Abi } from "viem";
 
 const Swap = () => {
   const [tokens, setTokens] = useState<number>(0);
@@ -100,7 +101,7 @@ const Swap = () => {
   // Read Token Balance
   const usdcTokenContract = {
     address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
-    abi: Usdc,
+    abi: Usdc as Abi,
   };
 
   const {

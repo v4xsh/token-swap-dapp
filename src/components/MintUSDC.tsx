@@ -7,6 +7,7 @@ import {
 import Usdc from "../../abi/susd.json";
 import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 import Image from "next/image";
+import { type Abi } from "viem";
 
 const MintUSDC = () => {
   const { address: walletAddress } = useTokenStore() as tokenStoreType;
@@ -22,7 +23,7 @@ const MintUSDC = () => {
 
   const usdcTokenContract = {
     address: process.env.NEXT_PUBLIC_USDC_ADDRESS as `0x${string}`,
-    abi: Usdc,
+    abi: Usdc as Abi,
   };
 
   const {
