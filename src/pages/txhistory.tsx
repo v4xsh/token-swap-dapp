@@ -2,9 +2,7 @@ import Layout from "@/components/Layout";
 import React, { useEffect, useState } from "react";
 import { useTransaction } from "wagmi";
 
-let timer: number;
-
-const txhistory = () => {
+const TxHistory = () => {
   const [hash, setHash] = useState<`0x${string}`>();
 
   const { data, isError, isLoading } = useTransaction({
@@ -52,7 +50,9 @@ const txhistory = () => {
             placeholder="Enter Tx Hash"
             type="text"
             value={hash}
-            onChange={(e) => setHash(e.target.value.toString() as `0x${string}`)}
+            onChange={(e) =>
+              setHash(e.target.value.toString() as `0x${string}`)
+            }
           />
         </div>
         <div>
@@ -75,4 +75,4 @@ const txhistory = () => {
   );
 };
 
-export default txhistory;
+export default TxHistory;

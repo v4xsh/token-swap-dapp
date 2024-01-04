@@ -54,8 +54,8 @@ const MintSUSD = () => {
 
   useEffect(() => {
     if (readTokenData) {
-      setTokenSymbol(readTokenData[0].result);
-      setTokenName(readTokenData[1].result);
+      setTokenSymbol(String(readTokenData[0].result));
+      setTokenName(String(readTokenData[1].result));
       setTokenCurrBalance(String(readTokenData[2].result).slice(0, 12));
     }
   }, [readTokenData]);
@@ -72,7 +72,7 @@ const MintSUSD = () => {
       return;
     }
     setMintAmountError(false);
-    write();
+    write && write();
   };
 
   return (

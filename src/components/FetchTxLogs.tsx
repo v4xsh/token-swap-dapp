@@ -79,7 +79,7 @@ const FetchTxLogs: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [walletAddress]);
 
   return (
     <div className="mx-12 mt-10">

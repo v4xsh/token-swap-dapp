@@ -6,7 +6,7 @@ import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
 import Connect from "@/components/Connect";
 import { useState } from "react";
 
-const login = () => {
+const Login = () => {
   const router = useRouter();
   const { setAddress } = useTokenStore() as tokenStoreType;
 
@@ -39,4 +39,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

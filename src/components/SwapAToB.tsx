@@ -93,7 +93,7 @@ const Swap = () => {
   useEffect(() => {
     if (tokenApprovalSuccess) setHash(approvedTokenData?.hash as `0x${string}`);
     if (swapSuccess) setHash(swappedTokenData?.hash as `0x${string}`);
-  }, [loadingTokenApproval, tokenApprovalSuccess, loadingSwapping]);
+  }, [tokenApprovalSuccess, swapSuccess, approvedTokenData, swappedTokenData]);
 
   // ----------------------------------------------------------------------
 
