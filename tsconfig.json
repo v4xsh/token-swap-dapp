@@ -6,6 +6,12 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "types": [
+      "cypress",
+      "@synthetixio/synpress/support",
+      // "cypress-wait-until",
+      // "@testing-library/cypress"
+    ],
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -17,6 +23,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "synpress.config.js", "cypress.config.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "synpress.config.js",
+    "cypress.config.ts"
+  ],
   "exclude": ["node_modules"]
 }

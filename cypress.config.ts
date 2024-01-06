@@ -1,9 +1,12 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
+const setupNodeEvents = require('@synthetixio/synpress/plugins/index');
 
 export default defineConfig({
+  userAgent: 'synpress',
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
-  },
+    setupNodeEvents
+    // setupNodeEvents (on, config) {
+    //   // implement node event listeners here
+    // }
+  }
 });

@@ -18,7 +18,7 @@ const Connect = () => {
           onClick={() => connect({ connector })}
         >
           {connector.name === 'MetaMask' && (
-            <div className="me-1">
+            <div className="me-1" id="connect-btn">
               <Image
                 src="/images/metamask_logo.png"
                 alt="metamask_logo"

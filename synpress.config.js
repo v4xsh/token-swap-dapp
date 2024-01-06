@@ -28,7 +28,7 @@ module.exports = defineConfig({
     testIsolation: false,
     setupNodeEvents,
     // Url for the test dApp
-    baseUrl: 'http://127.0.0.1:8080/',
+    baseUrl: 'http://localhost:3000/',
     // Where all tests can be found.
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     // Path for your support file your setup early
