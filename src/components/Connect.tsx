@@ -1,5 +1,5 @@
-import { useConnect } from "wagmi";
-import Image from "next/image";
+import { useConnect } from 'wagmi';
+import Image from 'next/image';
 
 const Connect = () => {
   const { connect, data, connectors, isLoading, pendingConnector } =
@@ -9,6 +9,7 @@ const Connect = () => {
 
   return (
     <>
+    {/* <a href="http://google.com">Alert</a> */}
       {connectors.map((connector) => (
         <button
           className="px-8 py-3 border mx-auto border-zinc-600 rounded-full text-sm flex items-center justify-between"
@@ -16,7 +17,7 @@ const Connect = () => {
           key={connector.id}
           onClick={() => connect({ connector })}
         >
-          {connector.name === "MetaMask" && (
+          {connector.name === 'MetaMask' && (
             <div className="me-1">
               <Image
                 src="/images/metamask_logo.png"
