@@ -1,11 +1,5 @@
 console.log('yoyoyoyoyo');
 describe('Synpress Demo', () => {
-  beforeEach(() => {
-    cy.setupMetamask();
-    cy.changeMetamaskNetwork('localhost')
-    cy.visit('/')
-  });
-
   it('should connect to MetaMask and display wallet address', () => {
     cy.visit('http://localhost:3000   /');
     cy.get('#address').contains('??');
