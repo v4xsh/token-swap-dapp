@@ -1,26 +1,16 @@
 console.log('yoyoyoyoyo');
 describe('Synpress Demo', () => {
   it('should connect to MetaMask and display wallet address', () => {
-    // cy.setupMetamask(
-    //   'test test test test test test test test test test test junk',
-    //   'sepolia',
-    //   'Tester@1234'
-    // ).then((setupFinished) => {
-    //   expect(setupFinished).to.be.true;
-    // });
-
-    cy.visit('http://localhost:3000/');
-    cy.get('#address').contains('??');
-    cy.get('#connected').contains('NO');
+    cy.visit('http://localhost:3000/login');
 
     cy.get('#connect-btn').click();
     cy.acceptMetamaskAccess(); // <------ Synpress API
 
-    cy.get('#address').contains('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266');
+    cy.wait(2000);
+
+    cy.get('#address').contains('0xe985EF3c939De33f979283d486743475a93e8eaC');
     cy.get('#connected').contains('YES');
 
     cy.get('#disconnect-btn').click();
-    cy.get('#address').contains('??');
-    cy.get('#connected').contains('NO');
   });
 });

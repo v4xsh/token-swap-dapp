@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import dynamic from "next/dynamic";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
-import { useBalance } from "wagmi";
+import { useBalance } from 'wagmi';
 
-import { useTokenStore } from "../../store/useTokenStore";
-const Disconnect = dynamic(() => import("@/components/Disconnect"), {
-  ssr: false,
+import { useTokenStore } from '../../store/useTokenStore';
+const Disconnect = dynamic(() => import('@/components/Disconnect'), {
+  ssr: false
 });
 
 const Profile = () => {
   const {
-    address,
+    address
   }: {
     address?: `0x${string}`;
   } = useTokenStore() as {
@@ -19,7 +19,7 @@ const Profile = () => {
   };
 
   const { data, isError, isLoading } = useBalance({
-    address,
+    address
   });
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -47,16 +47,18 @@ const Profile = () => {
             height={30}
           />
           <div className="text-black">
-            {address && address.slice(0, 6) + "..." + address.slice(-4)}
+            {address && address.slice(0, 6) + '...' + address.slice(-4)}
           </div>
         </button>
 
         <div
           className={`absolute right-0 ${
-            isDropdownVisible ? "" : "hidden"
+            isDropdownVisible ? '' : 'hidden'
           } bg-white border text-black shadow-md py-2 mt-1 rounded-md z-10 text-center text-base`}
         >
-          <div className="py-1 px-2">{address}</div>
+          <div className="py-1 px-2" id="address">
+            {address}
+          </div>
           <div className="flex items-center justify-between py-1 px-2">
             <div className="">
               <span className="font-bold me-1">Token</span>
