@@ -141,12 +141,14 @@ const Swap = () => {
       </div>
       <div className="flex items-center gap-2">
         <input
+          id="swapBToA"
           className="px-3 py-2 text-white bg-transparent border border-white rounded-2xl"
           type="number"
           value={tokens}
           onChange={setTokenHandler}
         />
         <button
+        id="submitSwapBToA"
           onClick={() =>
             (allowanceData as bigint) > 0n
               ? swap && swap()

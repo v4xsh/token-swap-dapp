@@ -89,12 +89,14 @@ const MintUSDC = () => {
       </div>
       <div className="flex items-center gap-2">
         <input
+          id='mintUsdcInput'
           type="number"
           onChange={(e) => setUsdcMintAmount(parseFloat(e.target.value))}
           value={usdcMintAmount}
           className="text-black px-5 py-2 text-xl"
         />
         <button
+          id='mintUsdc'
           disabled={isLoading || mintAmountError}
           onClick={writeHandler}
           className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress:open": "cypress open",
-    "synpress:run": "env-cmd -f .env.e2e synpress run --configFile synpress.config.js --browser chrome",
+    "synpress:run": "SKIP_METAMASK_SETUP=true synpress run --configFile synpress.config.js --browser chrome",
     "test:e2e": "start-server-and-test 'yarn start' http://localhost:3000 'yarn synpress:run'"
   },
   "dependencies": {

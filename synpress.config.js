@@ -15,6 +15,7 @@ module.exports = defineConfig({
   viewportHeight: 1080,
   video: false,
   screenshots: false,
+  screenshotOnRunFailure: false,
   env: {
     coverage: false
   },
