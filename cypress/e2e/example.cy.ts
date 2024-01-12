@@ -30,7 +30,7 @@ describe('Synpress Demo', () => {
     cy.visit(DOMAIN + '/mint');
     cy.get('#mintUsdcInput').type('1000');
     cy.get('#mintUsdc').click();
-    // cy.confirmMetamaskTransaction()
+    cy.confirmMetamaskTransaction()
     cy.confirmMetamaskPermissionToSpend().should('be.true');
 
     cy.wait(100000);
