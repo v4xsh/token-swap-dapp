@@ -34,7 +34,7 @@ const FetchTxLogs: React.FC = () => {
       try {
         let latestBlock = await publicClient.getBlockNumber();
         const blockDifference = 3000n;
-        const batchSize = 20;
+        const batchSize = 10;
         let swapContractBlock = 10251787n;
         let swapContractBlockTo = swapContractBlock + blockDifference;
 

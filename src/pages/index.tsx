@@ -20,7 +20,7 @@ export default function Home() {
             <SwapBToA />
           </div>
         </div>
-        <FetchTxLogs />
+        {/* <FetchTxLogs /> */}
       </div>
     </Layout>
   );
