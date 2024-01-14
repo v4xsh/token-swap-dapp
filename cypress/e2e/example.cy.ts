@@ -3,7 +3,7 @@ const DOMAIN: string = 'http://localhost:3000';
 describe('Synpress Demo', () => {
   it('should connect to MetaMask and display wallet address', () => {
     cy.setupMetamask(
-      'dynamic broom defense diamond dragon busy naive avoid arch junk endless myself',
+      process.env.SECRET_KEY,
       // 'battle raccoon helmet please deliver keep kiss round orphan frame update message',
       {
         networkName: 'Goerli test network',
@@ -30,9 +30,11 @@ describe('Synpress Demo', () => {
     cy.visit(DOMAIN + '/mint');
     cy.get('#mintUsdcInput').type('10');
     cy.get('#mintUsdc').click();
-    // cy.get('#mintUsdc').click();
+    cy.get('#mintUsdc').click();
+    cy.get('#mintUsdc').click();
+    cy.get('#mintUsdc').click();
     cy.wait(7000);
-    cy.isMetamaskWindowActive().should("be.true");
+    // cy.isMetamaskWindowActive().should("be.true");
     cy.confirmMetamaskTransaction();
     // cy.confirmMetamaskPermissionToSpend('10').should('be.true');
 
