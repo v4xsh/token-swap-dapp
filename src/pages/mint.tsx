@@ -1,10 +1,11 @@
-import dynamic from "next/dynamic";
-import Layout from "@/components/Layout";
+import React from 'react';
+import dynamic from 'next/dynamic';
+import Layout from '@/components/Layout';
 
-const MintSUSD = dynamic(() => import("@/components/MintSUSD"), { ssr: false });
-const MintUSDC = dynamic(() => import("@/components/MintUSDC"), { ssr: false });
+const MintSUSD = dynamic(async () => await import('@/components/MintSUSD'), { ssr: false });
+const MintUSDC = dynamic(async () => await import('@/components/MintUSDC'), { ssr: false });
 
-const mint = () => {
+const mint = (): React.JSX.Element => {
   return (
     <Layout>
       <div className="flex justify-center mt-24">
