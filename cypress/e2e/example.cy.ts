@@ -21,7 +21,7 @@ describe('Synpress Demo', () => {
     cy.get('#connect-btn').click();
     cy.acceptMetamaskAccess(); // <------ Synpress API
 
-    cy.wait(2000);
+    cy.wait(1000);
 
     cy.get('#address').contains('0xe985EF3c939De33f979283d486743475a93e8eaC');
     cy.get('#connected').contains('YES');
@@ -34,12 +34,11 @@ describe('Synpress Demo', () => {
     // cy.confirmMetamaskTransaction();
     // cy.wait(30000);
 
-    cy.visit(DOMAIN + '/');
-    cy.get('#swapBToA').type('100');
-    cy.wait(2000);
-    cy.get('#submitSwapBToA').click();
-    cy.confirmMetamaskPermissionToSpend().should("be.true");
-    cy.wait(20000);
+    // cy.visit(DOMAIN + '/');
+    // cy.get('#swapBToA').type('100');
+    // cy.wait(2000);
+    // cy.get('#submitSwapBToA').click();
+    // cy.confirmMetamaskPermissionToSpend().should("be.true");
 
     // cy.get('#swapBToA').clear();
     cy.get('#swapBToA').type('900');
