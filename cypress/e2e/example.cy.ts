@@ -23,9 +23,10 @@ describe('Synpress Demo', () => {
 
     cy.wait(2000);
 
-    cy.get('#address').contains('0x9A32D61b1b1faB740600d3CB8a3072765B62900D');
+    cy.get('#address').contains('0xe985EF3c939De33f979283d486743475a93e8eaC');
     cy.get('#connected').contains('YES');
 
+    // Minting Tokens
     // cy.visit(DOMAIN + '/mint');
     // cy.get('#mintUsdcInput').type('10');
     // cy.wait(1000);
@@ -33,19 +34,18 @@ describe('Synpress Demo', () => {
     // cy.confirmMetamaskTransaction();
     // cy.wait(30000);
 
-    // cy.visit(DOMAIN + '/');
-    // cy.get('#swapBToA').type('100');
-    // cy.wait(2000);
-    // cy.get('#submitSwapBToA').click();
-    // cy.confirmMetamaskPermissionToSpend().should("be.true");
-    // cy.wait(20000);
+    cy.visit(DOMAIN + '/');
+    cy.get('#swapBToA').type('100');
+    cy.wait(2000);
+    cy.get('#submitSwapBToA').click();
+    cy.confirmMetamaskPermissionToSpend().should("be.true");
+    cy.wait(20000);
 
     // cy.get('#swapBToA').clear();
     cy.get('#swapBToA').type('900');
     cy.wait(2000);
     cy.get('#submitSwapBToA').click();
     cy.confirmMetamaskPermissionToSpend().should("be.true");
-    // cy.confirmMetamaskTransaction();
     cy.wait(20000);
   });
 });
