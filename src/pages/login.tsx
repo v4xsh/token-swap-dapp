@@ -1,25 +1,26 @@
-import { useRouter } from "next/navigation";
-import { useAccount } from "wagmi";
+import React from 'react';
 
-import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
+import { useRouter } from 'next/navigation';
+import { useAccount } from 'wagmi';
 
-import Connect from "@/components/Connect";
-import { useState } from "react";
+import { type tokenStoreType, useTokenStore } from '../../store/useTokenStore';
 
-const Login = () => {
+import Connect from '@/components/Connect';
+
+const Login = (): JSX.Element => {
   const router = useRouter();
   const { setAddress } = useTokenStore() as tokenStoreType;
 
   useAccount({
     onConnect: ({ address }) => {
-      if (address) {
+      if (address !== undefined) {
         setAddress(address);
-        router.push("/");
+        router.push('/');
       }
     },
     onDisconnect: () => {
       setAddress(null);
-    },
+    }
   });
 
   return (
@@ -32,7 +33,7 @@ const Login = () => {
         </div>
         <Connect />
         <div className="mt-7 text-base font-light">
-          Made with <span className="text-blue-600">{"♥"}</span> by Vansh
+          Made with <span className="text-blue-600">{'♥'}</span> by Vansh
         </div>
       </div>
     </div>
