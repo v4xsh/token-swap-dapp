@@ -1,13 +1,13 @@
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode } from 'react';
 
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
+import { tokenStoreType, useTokenStore } from '../../store/useTokenStore';
 
-const ProfileDropDown = dynamic(() => import("@/components/ProfileDropDown"), {
-  ssr: false,
+const ProfileDropDown = dynamic(() => import('@/components/ProfileDropDown'), {
+  ssr: false
 });
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { address } = useTokenStore() as tokenStoreType;
   useEffect(() => {
     if (!address) {
-      router.push("/login");
+      router.push('/login');
     }
   }, [address]);
 

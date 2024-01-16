@@ -1,21 +1,21 @@
+import React from 'react';
 import { useConnect } from 'wagmi';
 import Image from 'next/image';
 
-const Connect = () => {
-  const { connect, data, connectors, isLoading, pendingConnector } =
-    useConnect();
-
-  // console.log(connectors.map(connector => !connector.ready), 8);
+const Connect = (): JSX.Element => {
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
 
   return (
     <>
-    {/* <a href="http://google.com">Alert</a> */}
+      {/* <a href="http://google.com">Alert</a> */}
       {connectors.map((connector) => (
         <button
           className="px-8 py-3 border mx-auto border-zinc-600 rounded-full text-sm flex items-center justify-between"
           // disabled={!connector.ready}
           key={connector.id}
-          onClick={() => connect({ connector })}
+          onClick={() => {
+            connect({ connector });
+          }}
         >
           {connector.name === 'MetaMask' && (
             <div className="me-1" id="connect-btn">

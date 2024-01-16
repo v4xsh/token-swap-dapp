@@ -9,26 +9,26 @@ const Disconnect = dynamic(() => import('@/components/Disconnect'), {
   ssr: false
 });
 
-const Profile = () => {
+const Profile = (): JSX.Element => {
   const {
     address
   }: {
-    address?: `0x${string}`;
+    address?: `0x${string}`
   } = useTokenStore() as {
-    address: `0x${string}`;
+    address: `0x${string}`
   };
 
-  const { data, isError, isLoading } = useBalance({
+  const { data } = useBalance({
     address
   });
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (): void => {
     setDropdownVisible(true);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (): void => {
     setDropdownVisible(false);
   };
 
@@ -47,7 +47,7 @@ const Profile = () => {
             height={30}
           />
           <div className="text-black">
-            {address && address.slice(0, 6) + '...' + address.slice(-4)}
+            {address?.length ?? address.slice(0, 6) + '...' + address.slice(-4)}
           </div>
         </button>
 

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   useContractRead,
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+  useWaitForTransaction
+} from 'wagmi';
 
-import contract from "../../abi/contract.json";
-import Susd from "../../abi/susd.json";
-import { tokenStoreType, useTokenStore } from "../../store/useTokenStore";
-import { type Abi } from "viem";
+import contract from '../../abi/contract.json';
+import Susd from '../../abi/susd.json';
+import { type tokenStoreType, useTokenStore } from '../../store/useTokenStore';
+import { type Abi } from 'viem';
 
-const Swap = () => {
+const Swap = (): JSX.Element => {
   const [tokens, setTokens] = useState<number>(0);
   const setTokenHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -32,68 +32,63 @@ const Swap = () => {
   const { data: allowanceData } = useContractRead({
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
     abi: Susd,
-    functionName: "allowance",
+    functionName: 'allowance',
     args: [
       walletAddress,
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
     ],
     enabled: !!walletAddress,
-    watch: true,
+    watch: true
   });
 
   // ----------------------------------------------------------------------
 
   // Approve Token
-  const { config: approveConfig, error: approveError } =
-    usePrepareContractWrite({
-      address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
-      abi: Susd,
-      functionName: "approve",
-      args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
-      enabled: (allowanceData as bigint) === 0n,
-    });
+  const { config: approveConfig } = usePrepareContractWrite({
+    address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
+    abi: Susd,
+    functionName: 'approve',
+    args: [process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, tokens],
+    enabled: (allowanceData as bigint) === 0n
+  });
 
   const {
     data: approvedTokenData,
     isLoading: loadingTokenApproval,
     isSuccess: tokenApprovalSuccess,
-    write: approveToken,
+    write: approveToken
   } = useContractWrite(approveConfig);
 
   // ----------------------------------------------------------------------
 
   // Swap Token
-  const { config: swapConfig, error: swapError } = usePrepareContractWrite({
+  const { config: swapConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
     abi: contract,
-    functionName: "swapAToB",
+    functionName: 'swapAToB',
     args: [tokens],
     enabled:
-      (allowanceData as bigint) >= 0n && tokens <= (allowanceData as bigint),
+      (allowanceData as bigint) >= 0n && tokens <= (allowanceData as bigint)
   });
 
   const {
     data: swappedTokenData,
     isLoading: loadingSwapping,
     isSuccess: swapSuccess,
-    write: swap,
+    write: swap
   } = useContractWrite(swapConfig);
 
   // ----------------------------------------------------------------------
 
   const [hash, setHash] = useState<`0x${string}`>();
-  const {
-    data: txData,
-    isError: errorTx,
-    isLoading: loadingTx,
-  } = useWaitForTransaction({
+  const { isLoading: loadingTx } = useWaitForTransaction({
     hash,
-    enabled: !!hash,
+    enabled: !!hash
   });
 
   useEffect(() => {
-    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash as `0x${string}`);
-    if (swapSuccess) setHash(swappedTokenData?.hash as `0x${string}`);
+    if (tokenApprovalSuccess) setHash(approvedTokenData?.hash);
+    if (swapSuccess) setHash(swappedTokenData?.hash);
   }, [tokenApprovalSuccess, swapSuccess, approvedTokenData, swappedTokenData]);
 
   // ----------------------------------------------------------------------
@@ -101,29 +96,25 @@ const Swap = () => {
   // Read Token Balance
   const susdTokenContract = {
     address: process.env.NEXT_PUBLIC_SUSD_ADDRESS as `0x${string}`,
-    abi: Susd as Abi,
+    abi: Susd as Abi
   };
 
-  const {
-    data: readTokenData,
-    isError,
-    isLoading: isLoadingTokenData,
-  } = useContractReads({
+  const { data: readTokenData } = useContractReads({
     contracts: [
       {
         ...susdTokenContract,
-        functionName: "balanceOf",
-        args: [walletAddress as `0x${string}`],
-      },
+        functionName: 'balanceOf',
+        args: [walletAddress as `0x${string}`]
+      }
     ],
-    watch: true,
+    watch: true
   });
 
   const [tokenCurrBalance, setTokenCurrBalance] = useState<string | undefined>(
-    ""
+    ''
   );
   useEffect(() => {
-    if (readTokenData) {
+    if (readTokenData != null) {
       setTokenCurrBalance(readTokenData[0]?.result?.toString().slice(0, 12));
     }
   }, [readTokenData]);
@@ -155,11 +146,11 @@ const Swap = () => {
           className={`px-7 py-3 border text-base rounded-full hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all ${
             loadingTokenApproval ||
             loadingSwapping ||
-            (loadingTx && "opacity-75 cursor-no-drop")
+            (loadingTx && 'opacity-75 cursor-no-drop')
           }`}
           disabled={loadingTokenApproval || loadingSwapping || loadingTx}
         >
-          {(allowanceData as bigint) > 0n ? "Swap A To B" : "Approve"}
+          {(allowanceData as bigint) > 0n ? 'Swap A To B' : 'Approve'}
         </button>
         {loadingTx && (
           <>

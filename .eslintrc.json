@@ -15,6 +15,7 @@
   "plugins": ["react"],
   "rules": {
     "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/semi": "off"
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/consistent-type-definitions": "error"
   }
 }

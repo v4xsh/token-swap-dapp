@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Susd from "../../abi/susd.json";
-import Usdc from "../../abi/usdc.json";
-import { publicClient } from "@/pages/_app";
-import { useTokenStore } from "../../store/useTokenStore";
-import { batchRequest } from "../../utils/batchRequest";
-import { type Abi } from "viem";
+import React, { useEffect, useState } from 'react';
+import Susd from '../../abi/susd.json';
+import Usdc from '../../abi/usdc.json';
+import { publicClient } from '@/pages/_app';
+import { useTokenStore } from '../../store/useTokenStore';
+import { batchRequest } from '../../utils/batchRequest';
+import { type Abi } from 'viem';
 
-type TransactionType = {
-  transactionHash: string;
-  address: string;
+interface TransactionType {
+  transactionHash: string
+  address: string
   args: {
-    from: string;
-    to: string;
-    value: number;
-  };
-  operation: string;
-};
+    from: string
+    to: string
+    value: number
+  }
+  operation: string
+}
 
 const contractAddress = process.env
   .NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`;
@@ -29,10 +29,10 @@ const FetchTxLogs: React.FC = () => {
     useTokenStore() as { walletAddress: `0x${string}` | null };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       let susdTx, usdcTx, txnsArray;
       try {
-        let latestBlock = await publicClient.getBlockNumber();
+        const latestBlock = await publicClient.getBlockNumber();
         const blockDifference = 3000n;
         const batchSize = 10;
         let swapContractBlock = 10251787n;
@@ -46,7 +46,7 @@ const FetchTxLogs: React.FC = () => {
             blockDifference,
             contractAddress,
             susdAddress,
-            walletAddress as "0x${string}",
+            walletAddress as '0x${string}',
             Susd as Abi
           );
           usdcTx = await batchRequest(
@@ -56,35 +56,35 @@ const FetchTxLogs: React.FC = () => {
             blockDifference,
             contractAddress,
             usdcAddress,
-            walletAddress as "0x${string}",
+            walletAddress as '0x${string}',
             Usdc as Abi
           );
           swapContractBlock += BigInt(batchSize) * blockDifference;
           swapContractBlockTo += BigInt(batchSize) * blockDifference;
         }
 
-        if (susdTx && susdTx.length) {
-          susdTx = susdTx.map((tx) => ({ ...tx, operation: "Swap A To B" }));
+        if (susdTx != null && susdTx.length > 0) {
+          susdTx = susdTx.map((tx) => ({ ...tx, operation: 'Swap A To B' }));
         }
-        if (usdcTx && usdcTx.length) {
-          usdcTx = usdcTx.map((tx) => ({ ...tx, operation: "Swap B To A" }));
+        if (usdcTx != null && usdcTx.length > 0) {
+          usdcTx = usdcTx.map((tx) => ({ ...tx, operation: 'Swap B To A' }));
         }
 
-        if (usdcTx) txnsArray = [...usdcTx];
-        if (susdTx) txnsArray = [...susdTx];
+        if (usdcTx != null) txnsArray = [...usdcTx];
+        if (susdTx != null) txnsArray = [...susdTx];
       } catch (err) {
         console.error(err);
       }
       setTxns(txnsArray as []);
     };
 
-    fetchData();
+    void fetchData();
   }, [walletAddress]);
 
   return (
     <div className="mx-12 mt-10">
       <div className="">
-        {txns &&
+        {txns.length ??
           txns.map((tx: TransactionType) => {
             return (
               <div

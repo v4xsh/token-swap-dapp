@@ -1,3 +1,4 @@
+import React from 'react';
 import dynamic from 'next/dynamic';
 
 import Layout from '@/components/Layout';
@@ -5,11 +6,11 @@ import Layout from '@/components/Layout';
 const SwapAToB = dynamic(() => import('@/components/SwapAToB'), { ssr: false });
 const SwapBToA = dynamic(() => import('@/components/SwapBToA'), { ssr: false });
 
-const FetchTxLogs = dynamic(() => import('@/components/FetchTxLogs'), {
-  ssr: false
-});
+// const FetchTxLogs = dynamic(() => import('@/components/FetchTxLogs'), {
+//   ssr: false
+// });
 
-export default function Home() {
+export default function Home (): JSX.Element {
   return (
     <Layout>
       <div className="flex flex-col h-screen mt-36 mb-24">
