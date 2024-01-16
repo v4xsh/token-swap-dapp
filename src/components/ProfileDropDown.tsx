@@ -47,7 +47,7 @@ const Profile = (): JSX.Element => {
             height={30}
           />
           <div className="text-black">
-            {address?.length ?? address.slice(0, 6) + '...' + address.slice(-4)}
+            {address && address.slice(0, 6) + '...' + address.slice(-4)}
           </div>
         </button>
 
